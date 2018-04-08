@@ -26,7 +26,11 @@ func (s *search) Search(fulltext string, opts *SearchOptions) (SearchResult, *ht
 	if opts == nil {
 		opts = &SearchOptions{
 			ResultCount: maxResultCount,
+			Offset: 0,
 		}
+	}
+	if opts.Offset < 0 {
+		opts.Offset = 0
 	}
 	if opts.ResultCount > maxResultCount {
 		opts.ResultCount = maxResultCount

@@ -79,17 +79,40 @@ type CaseMetadata struct {
 	URL          string    `json:"url"`
 	Title        string    `json:"title"`
 	Citation     string    `json:"citation"`
+	Language     string    `json:"language"`
+	Keywords     string    `json:"keywords"`
 	DocketNumber string    `json:"docketNumber"`
-	DecisionDate time.Time `json:"decisionDate"`
+	DecisionDate string    `json:"decisionDate"`
+	//DecisionDate time.Time `json:"decisionDate"`
 }
 
 // CaseMetadata gets the metadata for a given case. dbID is a
 // unique identifier of a database as provided in the database list.
 // caseID is a unique identifier of a case as provided in the case list.
 func (c *caseBrowse) CaseMetadata(dbID, caseID string) ([]CaseMetadata, *http.Response, error) {
-	var v struct {
-		Cases []CaseMetadata `json:"cases"`
-	}
+	//var v struct {
+	//	//Cases []CaseMetadata `json:"cases"`
+	//	Case CaseMetadata
+	//}
+	v := CaseMetadata{}
 	resp, err := c.client.get("caseBrowse", dbID+"/"+caseID, nil, &v)
-	return v.Cases, resp, err
+	//fmt.Printf("CASE BROWSE: len(v.Cases) = %d, v.Cases[0] = %s\n", len(v.Cases), v.Cases[0])
+	//fmt.Println(resp)
+	var caseSlice []CaseMetadata
+	caseSlice = append(caseSlice, v)
+
+	return caseSlice, resp, err
 }
+
+// CaseMetadata gets the metadata for a given case. dbID is a
+// unique identifier of a database as provided in the database list.
+// caseID is a unique identifier of a case as provided in the case list.
+//func (c *caseBrowse) CaseMetadata(dbID, caseID string) ([]CaseMetadata, *http.Response, error) {
+//	//var v struct {
+//	//	Cases []CaseMetadata `json:"cases"`
+//	//}
+//	v := CaseMetadata{}
+//	resp, err := c.client.get("caseBrowse", dbID+"/"+caseID, nil, &v)
+//	//return v.Cases, resp, err
+//	return v, resp, err
+//}
